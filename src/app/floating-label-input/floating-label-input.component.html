@@ -1,0 +1,14 @@
+<div [class]="containerClass">
+    <label for="id">{{label}}</label>
+    <input
+        [type]="type"
+        [id]="id"
+        [value]="value"
+        [min]="min"
+        [attr.aria-required]="required"
+        [attr.aria-describedby]="ariaDescribedby"
+        [attr.data-errorMsg]="errorMsg"
+        [attr.data-error]="hasError"
+        (input)="handleInput"
+    >
+</div>
