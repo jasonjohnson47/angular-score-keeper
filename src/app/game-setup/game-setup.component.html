@@ -1,7 +1,12 @@
 <h1>Who's Playing?</h1>
 <ul class="list-unstyled player-list">
-    <li>
-        <app-floating-label-input></app-floating-label-input>
+    <li *ngFor="let player of players">
+        <app-floating-label-input
+            label="Player Name"
+            [id]="'name-' + player.id.toString()"
+            [value]="player.name"
+            [required]="true"
+        ></app-floating-label-input>
     </li>
 </ul>
 <button type="button" class="btn btn-block btn-primary" (click)="addPlayer">App Player</button>

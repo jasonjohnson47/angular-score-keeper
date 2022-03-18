@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-floating-label-input',
@@ -8,15 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class FloatingLabelInputComponent implements OnInit {
 
   containerClass = ['floating-label'];
-  label: string = '';
+  @Input() label: string = '';
   type: string = 'text';
-  id: string = '';
-  value: string = '';
+  @Input() id: string = '';
+  @Input() value: string = '';
   min = null;
-  required = null;
+  @Input() required: boolean | null = null;
   ariaDescribedby = null;
   errorMsg = null;
-  hasError = false;
+  hasError = null;
 
   handleInput() {}
 
