@@ -1,21 +1,23 @@
 <h1>Who's Playing?</h1>
 <form [formGroup]="playerNamesForm" (ngSubmit)="onSubmit()">
 
-    <div formArrayName="playerNames">
-        <ul *ngFor="let playerName of playerNames.controls; let i=index">
-            <li>
-                <label for="player-{{i}}"></label>
-                <input id="player-{{i}}" type="text" [formControlName]="i">
-            </li>
-        </ul>
-    </div>
+    <ul formArrayName="playerNames" class="list-unstyled">
+        <li *ngFor="let playerName of playerNames.controls; let i=index">
+            <app-floating-label-input
+                [parentFormGroup]="playerNamesForm"
+                [parentFormArrayName]="'playerNames'"
+                [parentFormControlName]="i"
+                [id]="'player-' + i + '-name'"
+                [label]="'Player Name'"
+                [type]="'text'"
+            ></app-floating-label-input>
+        </li>
+    </ul>
 
-    <button type="button" class="btn btn-block btn-primary" (click)="addPlayerNameField()">App Player</button>
+    <button type="button" class="btn btn-block btn-primary" (click)="addPlayerNameField()">Add Player</button>
     <button *ngIf="roundToEdit === 1; else elseBlock" type="submit" class="btn btn-block btn-primary">Start Game</button>
     <ng-template #elseBlock>
         <button type="submit" class="btn btn-block btn-primary">Continue Game</button>
         <button type="submit" class="btn btn-block btn-primary">Start New Game</button>
     </ng-template>
 </form>
-
-

@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FloatingLabelInputComponent } from './floating-label-input/floating-label-input.component';
 import { GameSetupComponent } from './game-setup/game-setup.component';
+import { FocusInputDirective } from './focus-input.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     FloatingLabelInputComponent,
-    GameSetupComponent
+    GameSetupComponent,
+    FocusInputDirective
   ],
   imports: [
     BrowserModule,

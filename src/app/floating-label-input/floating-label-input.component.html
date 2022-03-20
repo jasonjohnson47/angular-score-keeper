@@ -1,14 +1,20 @@
-<div [class]="containerClass">
-    <label [for]="id">{{label}}</label>
-    <input
-        [type]="type"
-        [id]="id"
-        [value]="value"
-        [attr.min]="min"
-        [attr.aria-required]="required"
-        [attr.aria-describedby]="ariaDescribedby"
-        [attr.data-errorMsg]="errorMsg"
-        [attr.data-error]="hasError"
-        (input)="handleInput"
-    >
+<div [formGroup]="parentFormGroup" [class]="containerClass">
+    <ng-template [ngIf]="true" [formArrayName]="parentFormArrayName">
+        <label [for]="id">{{label}}</label>
+        <input
+            [formControlName]="parentFormControlName"
+            [id]="id"
+            [name]="id"
+            [type]="type"
+            [attr.min]="min"
+            [attr.aria-required]="required"
+            [attr.aria-describedby]="ariaDescribedby"
+            [attr.data-errorMsg]="errorMsg"
+            [attr.data-error]="hasError"
+            (focus)="handleFocus()"
+            (blur)="handleFloatingLabels()"
+            appFocusInput
+        >
+    </ng-template>
+    
 </div>

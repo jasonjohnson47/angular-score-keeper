@@ -13,4 +13,8 @@ export const PLAYERS: Player[] = [
     id: 2,
     name: 'Indie',
   },
+  {
+    id: 3,
+    name: '',
+  },
 ];

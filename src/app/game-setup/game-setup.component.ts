@@ -1,14 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PlayerService } from '../player.service';
 import { Player } from '../player';
+import { FloatingLabelInputComponent } from '../floating-label-input/floating-label-input.component';
  
 @Component({
   selector: 'app-game-setup',
   templateUrl: './game-setup.component.html',
   styleUrls: ['./game-setup.component.css']
 })
+
 export class GameSetupComponent implements OnInit {
+
+  @ViewChildren(FloatingLabelInputComponent) floatingLabelInputs!: QueryList<FloatingLabelInputComponent>
+
+  ngAfterViewInit() {
+    this.floatingLabelInputs.forEach((floatingLabelInput) => console.log(floatingLabelInput));
+  }
 
   constructor(
     private playerService: PlayerService,
@@ -50,6 +58,10 @@ export class GameSetupComponent implements OnInit {
   }
   startGame() {}
   continueGame() {}
+
+  setFocus() {
+
+  }
 
   ngOnInit(): void {
     this.getPlayers();

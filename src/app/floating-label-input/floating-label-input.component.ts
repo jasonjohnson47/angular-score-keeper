@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-floating-label-input',
@@ -7,23 +8,39 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class FloatingLabelInputComponent implements OnInit {
 
-  containerClass = ['floating-label'];
-  @Input() label: string = '';
-  type: string = 'text';
+  @Input() parentFormGroup: FormGroup = new FormGroup({});
+  @Input() parentFormArrayName: string = '';
+  @Input() parentFormControlName: number = 0;
   @Input() id: string = '';
-  @Input() value: string = '';
-  min = null;
+  @Input() label: string = '';
+  @Input() type: string = 'text';
   @Input() required: boolean | null = null;
+  @Input() focus: boolean | null = null;
+  
+  containerClass = ['floating-label'];
+  min = null;
   ariaDescribedby = null;
   errorMsg = null;
   hasError = null;
 
-  handleInput() {}
+  handleFocus() {
+    this.containerClass = ['floating-label', 'is-floating', 'has-focus']
+  }
 
+  handleFloatingLabels() {
+    const value = this.parentFormGroup.value.playerNames[this.parentFormControlName];
+
+    if (value != '') {
+      this.containerClass = ['floating-label', 'is-floating'];
+    } else {
+      this.containerClass = ['floating-label'];
+    }
+  }
 
   constructor() { }
 
   ngOnInit(): void {
+    this.handleFloatingLabels();
   }
 
 }
