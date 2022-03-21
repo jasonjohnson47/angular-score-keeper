@@ -4,5 +4,4 @@
 
 tasks:
   - init: npm install && npm run build
-    #command: npm run start
-    command: ng serve --host 0.0.0.0 --allowed-hosts ['localhost', '.gitpod.io']
+    command: npm run start
