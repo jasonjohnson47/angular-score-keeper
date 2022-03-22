@@ -4,4 +4,4 @@
 
 tasks:
   - init: npm install && npm run build
-    command: --host 0.0.0.0 --disable-host-check
+    command: ng serve --host 0.0.0.0 --disable-host-check
