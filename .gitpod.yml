@@ -4,4 +4,4 @@
 
 tasks:
   - init: npm install && npm run build
-    command: npm run start
+    command: --host 0.0.0.0 --disable-host-check
