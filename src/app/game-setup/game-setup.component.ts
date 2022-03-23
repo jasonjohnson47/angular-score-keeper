@@ -1,27 +1,32 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PlayerService } from '../player.service';
 import { Player } from '../player';
 import { FloatingLabelInputComponent } from '../floating-label-input/floating-label-input.component';
- 
+
 @Component({
   selector: 'app-game-setup',
   templateUrl: './game-setup.component.html',
-  styleUrls: ['./game-setup.component.css']
+  styleUrls: ['./game-setup.component.css'],
 })
-
 export class GameSetupComponent implements OnInit {
+  @ViewChildren(FloatingLabelInputComponent)
+  floatingLabelInputs!: QueryList<FloatingLabelInputComponent>;
 
-  @ViewChildren(FloatingLabelInputComponent) floatingLabelInputs!: QueryList<FloatingLabelInputComponent>
-
-  ngAfterViewInit() {
-    this.floatingLabelInputs.forEach((floatingLabelInput) => console.log(floatingLabelInput));
+  focusFirstEmptyField() {
+    const firstEmptyValueIndex: number = this.playerNames.value.findIndex(
+      (value: string) => value == ''
+    );
+    this.floatingLabelInputs.forEach((floatingLabelInput, index) => {
+      if (index == firstEmptyValueIndex) {
+        floatingLabelInput.focus = true;
+      } else {
+        floatingLabelInput.focus = false;
+      }
+    });
   }
 
-  constructor(
-    private playerService: PlayerService,
-    private fb: FormBuilder
-  ) { }
+  constructor(private playerService: PlayerService, private fb: FormBuilder) {}
 
   roundToEdit = 1;
 
@@ -32,12 +37,12 @@ export class GameSetupComponent implements OnInit {
   getPlayers(): void {
     this.players = this.playerService.getPlayers();
 
-    this.playerNameControls = this.players.map((player: Player) => this.fb.control(player.name));
+    this.playerNameControls = this.players.map((player: Player) =>
+      this.fb.control(player.name)
+    );
 
     this.playerNamesForm = this.fb.group({
-      playerNames: this.fb.array(
-        this.playerNameControls
-      )
+      playerNames: this.fb.array(this.playerNameControls),
     });
   }
 
@@ -47,6 +52,7 @@ export class GameSetupComponent implements OnInit {
 
   addPlayerNameField() {
     this.playerNames.push(this.fb.control(''));
+    this.focusFirstEmptyField();
   }
 
   onSubmit() {
@@ -59,12 +65,7 @@ export class GameSetupComponent implements OnInit {
   startGame() {}
   continueGame() {}
 
-  setFocus() {
-
-  }
-
   ngOnInit(): void {
     this.getPlayers();
   }
-
 }

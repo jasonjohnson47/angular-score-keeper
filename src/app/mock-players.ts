@@ -1,6 +1,6 @@
 import { Player } from './player';
 
-export const PLAYERS: Player[] = [
+/*export const PLAYERS: Player[] = [
   {
     id: 0,
     name: 'Jason',
@@ -17,4 +17,12 @@ export const PLAYERS: Player[] = [
     id: 3,
     name: '',
   },
+];*/
+
+export const PLAYERS: Player[] = [
+  {
+    id: 0,
+    name: '',
+  },
+
 ];
