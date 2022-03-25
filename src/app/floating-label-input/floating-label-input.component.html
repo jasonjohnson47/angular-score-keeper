@@ -2,6 +2,7 @@
     <ng-template [ngIf]="true" [formArrayName]="parentFormArrayName">
       <label [for]="id">{{ label }}</label>
       <input
+        #thisInput
         [formControlName]="parentFormControlName"
         [id]="id"
         [name]="id"
@@ -12,8 +13,7 @@
         [attr.data-errorMsg]="errorMsg"
         [attr.data-error]="hasError"
         (focus)="handleFocus()"
-        (blur)="handleFloatingLabels()"
-        #thisInput
+        (blur)="handleBlur(thisInput)"
       />
     </ng-template>
   </div>

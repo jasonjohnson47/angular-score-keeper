@@ -1,6 +1,6 @@
 <h1>Who's Playing?</h1>
 <form [formGroup]="playerNamesForm" (ngSubmit)="onSubmit()">
-  <ul formArrayName="playerNames" class="list-unstyled">
+  <ul formArrayName="playerNames" class="list-unstyled player-list">
     <li *ngFor="let playerName of playerNames.controls; let i = index">
       <app-floating-label-input
         [parentFormGroup]="playerNamesForm"
@@ -10,7 +10,27 @@
         [label]="'Player Name'"
         [type]="'text'"
         [focus]="focusArray[i] || false"
+        (blurred)="onBlurred($event)"
       ></app-floating-label-input>
+      <button
+        *ngIf="playerNames.length > 1"
+        type="button"
+        class="btn btn-delete"
+        (click)="deletePlayer(i)"
+        data-id="{{ i }}"
+      >
+        <span class="sr-only">Delete Player</span>
+        <svg
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 352 512"
+        >
+          <!-- Font Awesome Free 5.15.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) -->
+          <path
+            d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z"
+          />
+        </svg>
+      </button>
     </li>
   </ul>
 

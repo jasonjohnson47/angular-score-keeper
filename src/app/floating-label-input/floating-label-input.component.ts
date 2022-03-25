@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  ViewChild,
+  ElementRef,
+  EventEmitter,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -14,7 +22,6 @@ export class FloatingLabelInputComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log('ngOnChanges', this.id, this.focus);
     if (this.focus) {
       this.thisInput.nativeElement.focus();
     }
@@ -30,16 +37,13 @@ export class FloatingLabelInputComponent implements OnInit {
   @Input() type: string = 'text';
   @Input() required: boolean | null = null;
   @Input() focus: boolean = false;
+  @Output() blurred = new EventEmitter<HTMLInputElement>();
 
   containerClass = ['floating-label'];
   min = null;
   ariaDescribedby = null;
   errorMsg = null;
   hasError = null;
-
-  handleFocus() {
-    this.containerClass = ['floating-label', 'is-floating', 'has-focus'];
-  }
 
   handleFloatingLabels() {
     const value =
@@ -50,5 +54,14 @@ export class FloatingLabelInputComponent implements OnInit {
     } else {
       this.containerClass = ['floating-label'];
     }
+  }
+
+  handleFocus() {
+    this.containerClass = ['floating-label', 'is-floating', 'has-focus'];
+  }
+
+  handleBlur(thisInput: HTMLInputElement) {
+    this.blurred.emit(thisInput);
+    this.handleFloatingLabels();
   }
 }
