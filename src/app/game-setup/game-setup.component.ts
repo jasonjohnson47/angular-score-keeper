@@ -45,18 +45,16 @@ export class GameSetupComponent implements OnInit {
   addPlayerNameField() {
     this.playerNames.push(this.fb.control(''));
 
-    setTimeout(() => {
-      const tempFocusArray: boolean[] = Array(this.playerNames.length).fill(
-        false
-      );
-      const firstEmptyValueIndex: number = this.playerNames.value.findIndex(
-        (value: string) => value == ''
-      );
-      this.focusArray = tempFocusArray;
-      this.changeDetectorRef.detectChanges();
-      tempFocusArray[firstEmptyValueIndex] = true;
-      this.focusArray = tempFocusArray;
-    });
+    const tempFocusArray: boolean[] = Array(this.playerNames.length).fill(
+      false
+    );
+    const firstEmptyValueIndex: number = this.playerNames.value.findIndex(
+      (value: string) => value == ''
+    );
+    this.focusArray = tempFocusArray;
+    this.changeDetectorRef.detectChanges();
+    tempFocusArray[firstEmptyValueIndex] = true;
+    this.focusArray = tempFocusArray;
   }
 
   onSubmit() {
