@@ -1,23 +1,39 @@
 <h1>Who's Playing?</h1>
 <form [formGroup]="playerNamesForm" (ngSubmit)="onSubmit()">
+  <ul formArrayName="playerNames" class="list-unstyled">
+    <li *ngFor="let playerName of playerNames.controls; let i = index">
+      <app-floating-label-input
+        [parentFormGroup]="playerNamesForm"
+        [parentFormArrayName]="'playerNames'"
+        [parentFormControlName]="i"
+        [id]="'player-' + i + '-name'"
+        [label]="'Player Name'"
+        [type]="'text'"
+        [focus]="focusArray[i] || false"
+      ></app-floating-label-input>
+    </li>
+  </ul>
 
-    <ul formArrayName="playerNames" class="list-unstyled">
-        <li *ngFor="let playerName of playerNames.controls; let i=index">
-            <app-floating-label-input
-                [parentFormGroup]="playerNamesForm"
-                [parentFormArrayName]="'playerNames'"
-                [parentFormControlName]="i"
-                [id]="'player-' + i + '-name'"
-                [label]="'Player Name'"
-                [type]="'text'"
-            ></app-floating-label-input>
-        </li>
-    </ul>
-
-    <button type="button" class="btn btn-block btn-primary" (click)="addPlayerNameField()">Add Player</button>
-    <button *ngIf="roundToEdit === 1; else elseBlock" type="submit" class="btn btn-block btn-primary">Start Game</button>
-    <ng-template #elseBlock>
-        <button type="submit" class="btn btn-block btn-primary">Continue Game</button>
-        <button type="submit" class="btn btn-block btn-primary">Start New Game</button>
-    </ng-template>
+  <button
+    type="button"
+    class="btn btn-block btn-primary"
+    (click)="addPlayerNameField()"
+  >
+    Add Player
+  </button>
+  <button
+    *ngIf="roundToEdit === 1; else elseBlock"
+    type="submit"
+    class="btn btn-block btn-primary"
+  >
+    Start Game
+  </button>
+  <ng-template #elseBlock>
+    <button type="submit" class="btn btn-block btn-primary">
+      Continue Game
+    </button>
+    <button type="submit" class="btn btn-block btn-primary">
+      Start New Game
+    </button>
+  </ng-template>
 </form>

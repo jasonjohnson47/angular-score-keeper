@@ -7,6 +7,19 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./floating-label-input.component.css'],
 })
 export class FloatingLabelInputComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {
+    this.handleFloatingLabels();
+  }
+
+  ngOnChanges() {
+    console.log('ngOnChanges', this.id, this.focus);
+    if (this.focus) {
+      this.thisInput.nativeElement.focus();
+    }
+  }
+
   @ViewChild('thisInput') thisInput!: ElementRef;
 
   @Input() parentFormGroup: FormGroup = new FormGroup({});
@@ -16,18 +29,7 @@ export class FloatingLabelInputComponent implements OnInit {
   @Input() label: string = '';
   @Input() type: string = 'text';
   @Input() required: boolean | null = null;
-
-  focus: boolean = false;
-  oldFocus: boolean = false;
-
-  ngDoCheck() {
-    if (this.focus !== this.oldFocus) {
-      if (this.focus === true) {
-        this.thisInput.nativeElement.focus();
-      }
-      this.oldFocus = this.focus;
-    }
-  }
+  @Input() focus: boolean = false;
 
   containerClass = ['floating-label'];
   min = null;
@@ -36,9 +38,7 @@ export class FloatingLabelInputComponent implements OnInit {
   hasError = null;
 
   handleFocus() {
-    //this.focus = true;
     this.containerClass = ['floating-label', 'is-floating', 'has-focus'];
-    this.focus = false;
   }
 
   handleFloatingLabels() {
@@ -50,12 +50,5 @@ export class FloatingLabelInputComponent implements OnInit {
     } else {
       this.containerClass = ['floating-label'];
     }
-  }
-
-  constructor() {
-  }
-
-  ngOnInit(): void {
-    this.handleFloatingLabels();
   }
 }

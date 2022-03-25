@@ -1,8 +1,7 @@
-import { Component, ViewChildren, OnInit, QueryList } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormArray, FormGroup, FormControl } from '@angular/forms';
 import { PlayerService } from '../player.service';
 import { Player } from '../player';
-import { FloatingLabelInputComponent } from '../floating-label-input/floating-label-input.component';
 
 @Component({
   selector: 'app-game-setup',
@@ -10,29 +9,22 @@ import { FloatingLabelInputComponent } from '../floating-label-input/floating-la
   styleUrls: ['./game-setup.component.css'],
 })
 export class GameSetupComponent implements OnInit {
-  @ViewChildren(FloatingLabelInputComponent)
-  floatingLabelInputs!: QueryList<FloatingLabelInputComponent>;
+  constructor(
+    private playerService: PlayerService,
+    private fb: FormBuilder,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
-  focusFirstEmptyField() {
-    const firstEmptyValueIndex: number = this.playerNames.value.findIndex(
-      (value: string) => value == ''
-    );
-    this.floatingLabelInputs.forEach((floatingLabelInput, index) => {
-      if (index == firstEmptyValueIndex) {
-        floatingLabelInput.focus = true;
-      } else {
-        floatingLabelInput.focus = false;
-      }
-    });
+  ngOnInit(): void {
+    this.getPlayers();
   }
-
-  constructor(private playerService: PlayerService, private fb: FormBuilder) {}
 
   roundToEdit = 1;
 
   players: Player[] = [];
   playerNameControls: FormControl[] = [];
   playerNamesForm: FormGroup = this.fb.group({});
+  focusArray: boolean[] = [];
 
   getPlayers(): void {
     this.players = this.playerService.getPlayers();
@@ -52,7 +44,19 @@ export class GameSetupComponent implements OnInit {
 
   addPlayerNameField() {
     this.playerNames.push(this.fb.control(''));
-    this.focusFirstEmptyField();
+
+    setTimeout(() => {
+      const tempFocusArray: boolean[] = Array(this.playerNames.length).fill(
+        false
+      );
+      const firstEmptyValueIndex: number = this.playerNames.value.findIndex(
+        (value: string) => value == ''
+      );
+      this.focusArray = tempFocusArray;
+      this.changeDetectorRef.detectChanges();
+      tempFocusArray[firstEmptyValueIndex] = true;
+      this.focusArray = tempFocusArray;
+    });
   }
 
   onSubmit() {
@@ -64,8 +68,4 @@ export class GameSetupComponent implements OnInit {
   }
   startGame() {}
   continueGame() {}
-
-  ngOnInit(): void {
-    this.getPlayers();
-  }
 }
